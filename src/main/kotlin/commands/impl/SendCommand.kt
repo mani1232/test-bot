@@ -10,13 +10,12 @@ class SendCommand(event: SlashCommandInteractionEvent) : CommandImpl(event) {
     override fun start() {
         val channel = event.getOption("channel")?.asChannel ?: event.channel
         var success = true
-        if (channel is MessageChannel) channel.sendMessage(event.getOption("text")!!.asString).flatMap {
-            it.channel.sendMessageEmbeds(
-                EmbedBuilder().setTitle("Объявление от ${event.interaction.member?.asMention ?: "not found"}").setColor(
+        if (channel is MessageChannel) channel.sendMessage("Объявление от ${event.interaction.member?.asMention ?: "not found"}")
+            .addEmbeds(
+                EmbedBuilder().setTitle(event.getOption("text")!!.asString).setColor(
                     event.interaction.member?.roles?.get(0)?.color ?: Color.WHITE
                 ).build()
-            )
-        }.queue() else success = false
+            ).queue() else success = false
         event.hook.sendMessage("Embed send: `$success`").queue()
     }
 }
