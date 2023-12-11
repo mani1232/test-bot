@@ -2,6 +2,7 @@ package cc.worldmandia.commands.impl
 
 import cc.worldmandia.commands.CommandImpl
 import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.entities.Role.DEFAULT_COLOR_RAW
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import java.awt.Color
@@ -13,7 +14,7 @@ class SendCommand(event: SlashCommandInteractionEvent) : CommandImpl(event) {
         if (channel is MessageChannel) channel.sendMessage("Объявление от ${event.interaction.member?.asMention ?: "not found"}")
             .addEmbeds(
                 EmbedBuilder().setTitle(event.getOption("text")!!.asString).setColor(
-                    event.interaction.member?.roles?.get(0)?.color ?: Color.WHITE
+                    event.interaction.member?.roles?.first { it.colorRaw != DEFAULT_COLOR_RAW }?.color ?: Color.WHITE
                 ).build()
             ).queue() else success = false
         event.hook.sendMessage("Embed send: `$success`").queue()
