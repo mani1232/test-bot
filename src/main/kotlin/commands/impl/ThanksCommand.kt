@@ -5,11 +5,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.Duration
 
 class ThanksCommand(event: SlashCommandInteractionEvent) : CommandImpl(event) {
 
-    private val usersCooldown = mutableSetOf<Long>()
+    private val usersCooldown = ConcurrentHashMap.newKeySet<Long>()
 
     override fun start() {
         runBlocking {
