@@ -14,7 +14,7 @@ class SendCommand(event: SlashCommandInteractionEvent) : CommandImpl(event) {
         if (channel is MessageChannel) channel.sendMessage("Объявление от ${event.interaction.member?.asMention ?: "not found"}")
             .addEmbeds(
                 EmbedBuilder().setTitle(event.getOption("text")!!.asString).setColor(
-                    event.interaction.member?.roles?.first { it.colorRaw != DEFAULT_COLOR_RAW }?.color ?: Color.WHITE
+                    event.interaction.member?.roles?.firstOrNull { it.colorRaw != DEFAULT_COLOR_RAW }?.color ?: Color.WHITE
                 ).build()
             ).queue() else success = false
         event.hook.sendMessage("Embed send: `$success`").queue()
